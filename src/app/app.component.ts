@@ -11,7 +11,7 @@ import { Subject, combineLatest } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { State } from '@store/state';
 import { DropdownType } from '@store/enums';
-import { LoadSeriesData, LoadSeasonData, LoadEpisodeData } from '@store/actions';
+import { LoadSeriesData, LoadSeasonData, LoadEpisodeData, ClearEpisodeData } from '@store/actions';
 import { SeasonService } from './services/season.service';
 import { EpisodeService } from './services/episode.service';
 import { SeriesModel, SeasonModel, EpisodeModel } from './store/models';
@@ -109,12 +109,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public handleTitleClick(episodeNumber) {
     this.openModal = true;
-    console.log({ episodeNumber, seasonNumber: this.selectedSeason.Season, seriesName: this.selectedSeries.Title })
     this.store.dispatch(LoadEpisodeData({ episodeNumber, seasonNumber: this.selectedSeason.Season, seriesName: this.selectedSeries.Title }));
   }
 
   public handleModalClose() {
     this.openModal = false;
+    this.store.dispatch(ClearEpisodeData());
   }
 
   public ngOnDestroy(): void {
