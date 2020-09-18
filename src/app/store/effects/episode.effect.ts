@@ -20,7 +20,7 @@ export class EpisodeEffects {
     ofType(EpisodeActionsType.LoadEpisodeData),
     mergeMap(({ episodeNumber, seasonNumber, seriesName }) => this.omdbService.getSelectedEpisode(seasonNumber, seriesName, episodeNumber)
       .pipe(
-        map((selectedEpisode: EpisodeModel) => ({ type: EpisodeActionsType.LoadEpisodeDataSuccess, selectedSeason: selectedEpisode })),
+        map((selectedEpisode: EpisodeModel) => ({ type: EpisodeActionsType.LoadEpisodeDataSuccess, selectedEpisode: selectedEpisode })),
         catchError(() => EMPTY)
       )
     )

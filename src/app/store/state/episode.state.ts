@@ -1,12 +1,10 @@
 import { EpisodeModel } from '@store/models';
 
 export interface EpisodeState {
-  episodesListItems: Array<string>;
   selectedEpisode: EpisodeModel;
 }
 
 export const episodeInitialState: EpisodeState = {
-  episodesListItems: [],
   selectedEpisode: {
     Title: "",
     Year: "",

@@ -1,15 +1,19 @@
 <div class="main-container">
   <div class="dropdown-area">
+    <!-- Series Dropdown -->
     <kendo-dropdownlist class="dropdown" [data]="seriesListItems" [value]="seriesListItems[0]"
-                        (selectionChange)="onSelectionChange($event, DROP_DOWN_TYPE.SERIES)">
+                        (selectionChange)="handleSelectionChange($event, DROP_DOWN_TYPE.SERIES)">
     </kendo-dropdownlist>
 
+    <!-- Season Dropdown -->
     <kendo-dropdownlist *ngIf="!!seasonsListItems.length" class="dropdown" [data]="seasonsListItems" [value]="seasonsListItems[0]"
-                        (selectionChange)="onSelectionChange($event, DROP_DOWN_TYPE.SEASON)">
+                        (selectionChange)="handleSelectionChange($event, DROP_DOWN_TYPE.SEASON)">
     </kendo-dropdownlist>
+  </div>
 
-    <kendo-dropdownlist *ngIf="!!episodesListItems.length" class="dropdown" [data]="episodesListItems" [value]="episodesListItems[0]"
-                        (selectionChange)="onSelectionChange($event, DROP_DOWN_TYPE.EPISODE)">
-    </kendo-dropdownlist>
+  <div class="grid-container">
+    <div class="grid">
+      <app-grid [columns]="episodeService.episodeGridColumns" [gridData]="selectedSeason.Episodes" (onTitleClick)="handleTitleClick($event)"></app-grid>
+    </div>
   </div>
 </div>

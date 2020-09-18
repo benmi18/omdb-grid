@@ -10,7 +10,7 @@ export enum SeasonActionsType {
 
 export const SetSeasonListItems = createAction(
   SeasonActionsType.SetSeasonsListItems,
-  props<{ listItems: Array<string> }>()
+  props<{ seasonsListItems: Array<string> }>()
 );
 
 export const LoadSeasonData = createAction(

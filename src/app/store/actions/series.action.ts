@@ -18,6 +18,6 @@ export const LoadSeriesDataSuccess = createAction(
 );
 
 export const LoadSeriesDataFail = createAction(
-  SeriesActionsType.LoadSeriesData,
+  SeriesActionsType.LoadSeriesDataFail,
   props<{ error: any }>()
 );

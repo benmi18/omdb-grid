@@ -1,10 +1,19 @@
-import { selectSeriesListItems, selectSeasonsListItems, selectEpisodesListItems } from '@store/selectors';
+import {
+  selectSeriesListItems,
+  selectSeasonsListItems,
+  selectSelectedSeries,
+  selectSelectedSeason
+} from '@store/selectors';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { State } from '@store/state';
 import { DropdownType } from '@store/enums';
+import { LoadSeriesData, LoadSeasonData, LoadEpisodeData } from '@store/actions';
+import { SeasonService } from './services/season.service';
+import { EpisodeService } from './services/episode.service';
+import { SeriesModel, SeasonModel } from './store/models';
 
 
 @Component({
@@ -16,39 +25,66 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly onDestroy$ = new Subject<void>();
   public readonly DROP_DOWN_TYPE = DropdownType;
 
+  private selectedSeries: SeriesModel;
+
+  public selectedSeason: SeasonModel;
   public seriesListItems: Array<string> = [];
   public seasonsListItems: Array<string> = [];
-  public episodesListItems: Array<string> = [];
 
   constructor(
     private store: Store<State>,
-
+    private seasonService: SeasonService,
+    public episodeService: EpisodeService
   ) { }
 
   ngOnInit() {
     this.initiateDropdownData();
+    this.initiateSeriesData();
+    this.initiateSeasonData();
   }
 
   private initiateDropdownData() {
     combineLatest(
       this.store.pipe(select(selectSeriesListItems)),
-      // this.store.pipe(select(selectSeasonsListItems)),
-      // this.store.pipe(select(selectEpisodesListItems)),
+      this.store.pipe(select(selectSeasonsListItems)),
     )
       .pipe(
-        tap(([seriesList]) => {
+        tap(([seriesList, seasonsList]) => {
           this.seriesListItems = seriesList;
-          // this.seasonsListItems = seasonsList;
-          // this.episodesListItems = episodesList;
+          this.seasonsListItems = seasonsList;
         }),
         takeUntil(this.onDestroy$)
       ).subscribe();
   }
 
-  public onSelectionChange(seriesName, name: string) {
+  private initiateSeriesData() {
+    this.store.pipe(select(selectSelectedSeries))
+      .pipe(
+        tap(selectedSeries => {
+          this.selectedSeries = selectedSeries;
+          this.seasonService.mapSeasonsListItems(+selectedSeries.totalSeasons);
+        }),
+        takeUntil(this.onDestroy$)
+      ).subscribe()
+  }
+
+  private initiateSeasonData() {
+    this.store.pipe(select(selectSelectedSeason))
+      .pipe(
+        tap(selectedSeason => this.selectedSeason = selectedSeason),
+        takeUntil(this.onDestroy$)
+      ).subscribe()
+  }
+
+  public handleSelectionChange(value, name: string) {
     switch (name) {
       case this.DROP_DOWN_TYPE.SERIES:
-        // this.store.dispatch(LoadSeriesData({ seriesName }))
+        this.store.dispatch(LoadSeriesData({ seriesName: value }));
+        this.store.dispatch(LoadSeasonData({ seriesName: value, seasonNumber: '1' }));
+        break;
+
+      case this.DROP_DOWN_TYPE.SEASON:
+        this.store.dispatch(LoadSeasonData({ seriesName: this.selectedSeries.Title, seasonNumber: value.split('Season ')[1] }));
         break;
 
       default:
@@ -56,6 +92,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  public handleTitleClick(episodeNumber) {
+    console.log({ episodeNumber, seasonNumber: this.selectedSeason.Season, seriesName: this.selectedSeries.Title })
+    this.store.dispatch(LoadEpisodeData({ episodeNumber, seasonNumber: this.selectedSeason.Season, seriesName: this.selectedSeries.Title }));
+  }
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();

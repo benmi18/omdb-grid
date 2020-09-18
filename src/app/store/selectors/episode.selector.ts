@@ -7,8 +7,3 @@ export const selectSelectedEpisode = createSelector(
   getEpisode,
   episode => episode.selectedEpisode
 );
-
-export const selectEpisodesListItems = createSelector(
-  getEpisode,
-  episode => episode.episodesListItems
-);

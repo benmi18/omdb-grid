@@ -20,12 +20,16 @@ import { EpisodeEffects } from '@store/effects/episode.effect';
 import * as series from '@store/reducers/series.reducer';
 import * as season from '@store/reducers/season.reducer';
 import * as episode from '@store/reducers/episode.reducer';
+import { GridComponent } from './components/grid/grid.component';
+import { GridModule } from '@progress/kendo-angular-grid';
+
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GridComponent
   ],
   imports: [
     // StoreModule.forRoot(reducers, { metaReducers }),
@@ -39,7 +43,8 @@ import * as episode from '@store/reducers/episode.reducer';
     DropDownsModule,
     BrowserAnimationsModule,
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    HttpClientModule
+    HttpClientModule,
+    GridModule
   ],
   providers: [],
   bootstrap: [AppComponent]
