@@ -22,6 +22,9 @@ import * as season from '@store/reducers/season.reducer';
 import * as episode from '@store/reducers/episode.reducer';
 import { GridComponent } from './components/grid/grid.component';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { DialogsModule } from '@progress/kendo-angular-dialog';
+import { ModalComponent } from './components/modal/modal.component';
+
 
 
 
@@ -29,7 +32,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
 @NgModule({
   declarations: [
     AppComponent,
-    GridComponent
+    GridComponent,
+    ModalComponent
   ],
   imports: [
     // StoreModule.forRoot(reducers, { metaReducers }),
@@ -44,7 +48,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
     BrowserAnimationsModule,
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     HttpClientModule,
-    GridModule
+    GridModule,
+    DialogsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

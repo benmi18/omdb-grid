@@ -2,7 +2,8 @@ import {
   selectSeriesListItems,
   selectSeasonsListItems,
   selectSelectedSeries,
-  selectSelectedSeason
+  selectSelectedSeason,
+  selectSelectedEpisode
 } from '@store/selectors';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
@@ -13,7 +14,7 @@ import { DropdownType } from '@store/enums';
 import { LoadSeriesData, LoadSeasonData, LoadEpisodeData } from '@store/actions';
 import { SeasonService } from './services/season.service';
 import { EpisodeService } from './services/episode.service';
-import { SeriesModel, SeasonModel } from './store/models';
+import { SeriesModel, SeasonModel, EpisodeModel } from './store/models';
 
 
 @Component({
@@ -25,9 +26,11 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly onDestroy$ = new Subject<void>();
   public readonly DROP_DOWN_TYPE = DropdownType;
 
-  private selectedSeries: SeriesModel;
-
+  public selectedSeries: SeriesModel;
   public selectedSeason: SeasonModel;
+  public selectedEpisode: EpisodeModel;
+  public openModal: boolean = false;
+  public modalTitle: string = '';
   public seriesListItems: Array<string> = [];
   public seasonsListItems: Array<string> = [];
 
@@ -41,6 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.initiateDropdownData();
     this.initiateSeriesData();
     this.initiateSeasonData();
+    this.initiateEpisodeData();
   }
 
   private initiateDropdownData() {
@@ -76,6 +80,17 @@ export class AppComponent implements OnInit, OnDestroy {
       ).subscribe()
   }
 
+  private initiateEpisodeData() {
+    this.store.pipe(select(selectSelectedEpisode))
+      .pipe(
+        tap(selectedEpisode => {
+          this.modalTitle = selectedEpisode.Title;
+          this.selectedEpisode = selectedEpisode
+        }),
+        takeUntil(this.onDestroy$)
+      ).subscribe()
+  }
+
   public handleSelectionChange(value, name: string) {
     switch (name) {
       case this.DROP_DOWN_TYPE.SERIES:
@@ -93,8 +108,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public handleTitleClick(episodeNumber) {
+    this.openModal = true;
     console.log({ episodeNumber, seasonNumber: this.selectedSeason.Season, seriesName: this.selectedSeries.Title })
     this.store.dispatch(LoadEpisodeData({ episodeNumber, seasonNumber: this.selectedSeason.Season, seriesName: this.selectedSeries.Title }));
+  }
+
+  public handleModalClose() {
+    this.openModal = false;
   }
 
   public ngOnDestroy(): void {

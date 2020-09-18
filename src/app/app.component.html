@@ -11,9 +11,22 @@
     </kendo-dropdownlist>
   </div>
 
+  <!-- Grid -->
   <div class="grid-container">
     <div class="grid">
-      <app-grid [columns]="episodeService.episodeGridColumns" [gridData]="selectedSeason.Episodes" (onTitleClick)="handleTitleClick($event)"></app-grid>
+      <app-grid [columns]="episodeService.episodeGridColumns" [gridData]="selectedSeason.Episodes" (onTitleClick)="handleTitleClick($event)">
+      </app-grid>
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<app-modal [opened]="openModal" [title]="selectedSeries.Title + ': Season ' + selectedSeason.Season" (onClose)="handleModalClose()">
+  <div class="modal-content">
+    <p><span class="bold-text">Title:</span> {{selectedEpisode.Title}}</p>
+    <p><span class="bold-text">Runtime:</span> {{selectedEpisode.Runtime}}</p>
+    <p><span class="bold-text">Genre:</span> {{selectedEpisode.Genre}}</p>
+    <p><span class="bold-text">Plot:</span> {{selectedEpisode.Plot}}</p>
+    <img class="poster" src="{{selectedEpisode.Poster}}" alt="poster">
+  </div>
+</app-modal>
