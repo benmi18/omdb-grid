@@ -5,7 +5,6 @@ import { Column } from '../store/models';
   providedIn: 'root'
 })
 export class EpisodeService {
-
   public get episodeGridColumns(): Array<Column> {
     return [
       {field: 'Title', title: 'Title'},

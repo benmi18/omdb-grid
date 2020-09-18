@@ -36,7 +36,6 @@ import { ModalComponent } from './components/modal/modal.component';
     ModalComponent
   ],
   imports: [
-    // StoreModule.forRoot(reducers, { metaReducers }),
     StoreModule.forRoot({
       series: series.reducer,
       season: season.reducer,

@@ -41,6 +41,10 @@ export class AppComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.initiateData();
+  }
+  
+  private initiateData() {
     this.initiateDropdownData();
     this.initiateSeriesData();
     this.initiateSeasonData();
