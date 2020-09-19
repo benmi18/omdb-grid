@@ -22,7 +22,7 @@
 
 <!-- Modal -->
 <app-modal [opened]="openModal" [title]="selectedSeries.Title + ': Season ' + selectedSeason.Season" (onClose)="handleModalClose()">
-  <div class="modal-content">
+  <div *ngIf="!!selectedEpisode.Title; else loader" class="modal-content">
     <p><span class="bold-text">Title:</span> {{selectedEpisode.Title}}</p>
     <p><span class="bold-text">Runtime:</span> {{selectedEpisode.Runtime}}</p>
     <p><span class="bold-text">Genre:</span> {{selectedEpisode.Genre}}</p>
@@ -30,3 +30,10 @@
     <img class="poster" src="{{selectedEpisode.Poster}}" alt="poster">
   </div>
 </app-modal>
+
+
+<ng-template #loader>
+  <div class="loader">
+    <kendo-loader [type]="'infinite-spinner'" [themeColor]="'secondary'"></kendo-loader>
+  </div>
+</ng-template>

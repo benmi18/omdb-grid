@@ -26,10 +26,16 @@
 .modal-content {
   font-size: 18px;
   .bold-text {
+    font-size: 19px;
     font-weight: bold;
   }
   .poster {
     width: 100%;
     margin-top: 20px;
   }
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
 }

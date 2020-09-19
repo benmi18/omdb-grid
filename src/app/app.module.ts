@@ -24,6 +24,7 @@ import { GridComponent } from './components/grid/grid.component';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { ModalComponent } from './components/modal/modal.component';
+import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 
 
 
@@ -48,7 +49,8 @@ import { ModalComponent } from './components/modal/modal.component';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     HttpClientModule,
     GridModule,
-    DialogsModule
+    DialogsModule,
+    IndicatorsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

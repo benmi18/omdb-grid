@@ -13,8 +13,8 @@ export class GridComponent {
   @Output() public onTitleClick: EventEmitter<string> = new EventEmitter<string>();
 
   public onCellClick(event) {
-    if (event.column.field === 'Title') {
+    // if (event.column.field === 'Title') {
       this.onTitleClick.emit(event.dataItem.Episode);
-    }
+    // }
   }
 }
